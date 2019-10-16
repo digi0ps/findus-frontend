@@ -6,7 +6,6 @@ function Uploader({ addNewPhoto, multiple = false }) {
   const [success, setSuccess] = useState(false);
 
   const handleImageChange = e => {
-    console.log(e.target.files);
     setImage(e.target.files[0]);
   };
 
@@ -20,6 +19,7 @@ function Uploader({ addNewPhoto, multiple = false }) {
     if (data && data.id) {
       setSuccess(true);
       addNewPhoto(data);
+      setImage(null);
     }
   };
 

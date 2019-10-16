@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { post_person } from "../../helpers/api";
 
-function PersonName({ photoid, person }) {
+function PersonName({ person }) {
   const text = person ? person.person_name : "Couldn't identify.";
 
   const [editMode, setEditMode] = useState(false);
@@ -19,9 +19,10 @@ function PersonName({ photoid, person }) {
     }
 
     const data = {
-      photoid,
+      person_id: person.id,
       name,
     };
+
     const response = await post_person(data);
     if (response && response.person_name) {
       setEditMode(false);
