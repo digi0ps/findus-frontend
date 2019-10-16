@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { post_photo } from "../../helpers/api";
+import { post_photo } from "../helpers/api";
 
 function Uploader({ addNewPhoto, multiple = false }) {
   const [image, setImage] = useState(null);

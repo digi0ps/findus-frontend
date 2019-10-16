@@ -1,7 +1,7 @@
 import React from "react";
 
 import PersonName from "./person-name";
-import { BASE_URL } from "../../helpers/constants";
+import { BASE_URL } from "../helpers/constants";
 
 function Photo({ id, image, persons }) {
   return (

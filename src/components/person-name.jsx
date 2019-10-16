@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { post_person } from "../../helpers/api";
+import { post_person } from "../helpers/api";
 
 function PersonName({ person }) {
   const text = person ? person.person_name : "Couldn't identify.";
