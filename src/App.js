@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as api from "./helpers/api";
 
-import Photo from "./components/photo";
 import Uploader from "./components/uploader";
 import PhotoContainer from "./components/photo-container";
+import GroupedContainer from "./components/grouped-container";
 
 import { groupPhotosIntoBucket } from "./helpers/utils";
 import "./App.css";
@@ -45,17 +45,16 @@ function App() {
       <header className="App-header">FindUs - People Gallery</header>
       <aside>
         Upload image: <Uploader addNewPhoto={addNewPhoto} />
+        <br />
         Mode: <button onClick={toggleMode}>{mode}</button>
       </aside>
       {loading ? "Your photos are loading" : null}
       <main>
         {mode === "all" ? (
-          <PhotoContainer title="All Photos">
-            {photos.map(photo => (
-              <Photo key={photo.id} {...photo} />
-            ))}
-          </PhotoContainer>
-        ) : null}
+          <PhotoContainer title="All Photos" photos={photos} />
+        ) : (
+          <GroupedContainer bucket={bucket} />
+        )}
       </main>
     </div>
   );

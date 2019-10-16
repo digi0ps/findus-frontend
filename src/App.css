@@ -21,11 +21,14 @@
   color: #09d3ac;
 }
 
+.Photos-header {
+  text-align: left;
+}
+
 .Photos-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: stretch;
+  justify-content: flex-start;
   margin-top: 20px;
 }
 
