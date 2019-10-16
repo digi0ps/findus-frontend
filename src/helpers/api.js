@@ -25,3 +25,10 @@ export async function post_photo(form_data) {
 
   return response.data;
 }
+
+export async function post_person(form_data) {
+  const url = `${BASE_URL}/api/person/`;
+  const response = await axios.post(url, form_data);
+
+  return response.data;
+}
