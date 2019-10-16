@@ -1,41 +1,42 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import * as api from "./helpers/api";
+
+import Photo from "./components/photo";
+import Uploader from "./components/uploader";
+
 import "./App.css";
 
 function App() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const BASE_URL = "http://127.0.0.1:8000";
-
   useEffect(() => {
     async function fetchData() {
-      const url = `${BASE_URL}/api/gallery/`;
-      const response = await axios(url);
+      const photos = await api.get_photos();
 
-      setPhotos(response.data);
+      setPhotos(photos.reverse());
       setLoading(false);
     }
 
     fetchData();
   }, []);
 
+  const addNewPhoto = newPhoto => {
+    setPhotos([newPhoto, ...photos]);
+  };
+
   return (
     <div className="App">
       <header className="App-header">FindUs - People Gallery</header>
+      <aside>
+        Upload image: <Uploader addNewPhoto={addNewPhoto} />
+        <br />
+        <br />
+      </aside>
       <main>
         {loading ? "Your photos are loading" : null}
         {photos.map(photo => (
-          <div className="photo" key={photo.id}>
-            <img
-              alt="Gallery"
-              height="300px"
-              src={`${BASE_URL}${photo.image}`}
-            />
-            <br />
-            People in picture: {photo.persons.person_name}
-            <hr />
-          </div>
+          <Photo key={photo.id} {...photo} />
         ))}
       </main>
     </div>
