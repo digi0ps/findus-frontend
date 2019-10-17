@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import * as api from "./helpers/api";
 
+import Loader from "./components/photo/loader";
 import Uploader from "./components/uploader";
 import PhotoContainer from "./components/photo-container";
 import GroupedContainer from "./components/grouped-container";
@@ -30,7 +31,10 @@ function App() {
     setPhotos([newPhoto, ...photos]);
   };
 
-  const bucket = groupPhotosIntoBucket(persons, photos);
+  const bucket = useMemo(() => groupPhotosIntoBucket(persons, photos), [
+    persons,
+    photos,
+  ]);
 
   const [mode, setMode] = useState(localStorage["display_mode"] || "all");
 
@@ -44,9 +48,10 @@ function App() {
     <div className="App">
       <header className="App-header">FindUs - People Gallery</header>
       <aside>
-        Upload image: <Uploader addNewPhoto={addNewPhoto} />
+        Upload image <Uploader addNewPhoto={addNewPhoto} />
         <br />
-        Mode: <button onClick={toggleMode}>{mode}</button>
+        Mode <button onClick={toggleMode}>{mode}</button>
+        <Loader />
       </aside>
       {loading ? "Your photos are loading" : null}
       <main>

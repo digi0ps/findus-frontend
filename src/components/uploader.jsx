@@ -20,6 +20,8 @@ function Uploader({ addNewPhoto, multiple = false }) {
       setSuccess(true);
       addNewPhoto(data);
       setImage(null);
+
+      setTimeout(() => setSuccess(false), 3000);
     }
   };
 

@@ -5,7 +5,7 @@ function GroupedContainer({ bucket }) {
   return (
     <div className="Grouped-container">
       {Object.entries(bucket).map(([person_name, photos]) => (
-        <PhotoContainer title={person_name} photos={photos} />
+        <PhotoContainer key={person_name} title={person_name} photos={photos} />
       ))}
     </div>
   );
