@@ -9,6 +9,7 @@ function PhotoContainer({ title, photos }) {
         {photos.map(photo => (
           <Photo key={photo.id} {...photo} />
         ))}
+        {!photos.length && "No photos here."}
       </div>
     </div>
   );

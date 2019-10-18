@@ -3,9 +3,10 @@ export const groupPhotosIntoBucket = (persons, photos) => {
 
   persons.forEach(({ id, person_name }) => {
     bucket[person_name] = photos.filter(
-      photo => photo.persons && photo.persons.id === id,
+      photo => photo.persons.findIndex(p => p.person_name === person_name) > -1,
     );
   });
 
+  console.log(bucket);
   return bucket;
 };

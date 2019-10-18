@@ -30,7 +30,7 @@ function PersonName({ person }) {
   };
 
   return (
-    <span className="person" onClick={handleClick}>
+    <span className="Person-name" onClick={handleClick}>
       {person && editMode ? (
         <input
           type="text"

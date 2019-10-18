@@ -9,7 +9,7 @@ function Photo({ id, image, persons }) {
   const handleOnLoad = () => setIsLoading(false);
 
   return (
-    <div className="photo" key={id}>
+    <div className="Photo" key={id}>
       <div className={isLoading ? "hidden" : ""}>
         <img
           alt="Gallery"
@@ -18,7 +18,9 @@ function Photo({ id, image, persons }) {
           onLoad={handleOnLoad}
         />
         <br />
-        <PersonName person={persons} />
+        {persons.map(person => (
+          <PersonName key={person.id} person={person} />
+        ))}
       </div>
     </div>
   );

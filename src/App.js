@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import * as api from "./helpers/api";
 
-import Loader from "./components/photo/loader";
 import Uploader from "./components/uploader";
 import PhotoContainer from "./components/photo-container";
 import GroupedContainer from "./components/grouped-container";
@@ -47,13 +46,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">FindUs - People Gallery</header>
+
       <aside>
         Upload image <Uploader addNewPhoto={addNewPhoto} />
         <br />
         Mode <button onClick={toggleMode}>{mode}</button>
-        <Loader />
       </aside>
+
       {loading ? "Your photos are loading" : null}
+
       <main>
         {mode === "all" ? (
           <PhotoContainer title="All Photos" photos={photos} />
