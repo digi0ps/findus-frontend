@@ -26,8 +26,8 @@ function App() {
     fetchData();
   }, []);
 
-  const addNewPhoto = newPhoto => {
-    setPhotos([newPhoto, ...photos]);
+  const addNewPhoto = newPhotos => {
+    setPhotos([...newPhotos, ...photos]);
   };
 
   const bucket = useMemo(() => groupPhotosIntoBucket(persons, photos), [

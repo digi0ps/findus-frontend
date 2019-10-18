@@ -7,6 +7,5 @@ export const groupPhotosIntoBucket = (persons, photos) => {
     );
   });
 
-  console.log(bucket);
   return bucket;
 };
