@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { post_photo } from "../helpers/api";
+
+import DragBox from "./drag-box";
+
+import { post_photo } from "../../helpers/api";
 
 function Uploader({ addNewPhoto, multiple = true }) {
   const [images, setImages] = useState(null);
@@ -48,7 +51,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
   };
 
   return (
-    <div className="Uploader">
+    <DragBox>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
@@ -64,7 +67,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
       {success && (
         <p className="Uploader-success">Image Uploaded Successfully</p>
       )}
-    </div>
+    </DragBox>
   );
 }
 
