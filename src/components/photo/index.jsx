@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // import Loader from "./loader";
-import PersonName from "../person-name";
+import PersonName from "./person-name";
 import { BASE_URL } from "../../helpers/constants";
 
 function Photo({ id, image, persons }) {
