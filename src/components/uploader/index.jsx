@@ -4,6 +4,7 @@ import DragBox from "./drag-box";
 import ProgressBar from "./progress-bar";
 import UploadSuccess from "./upload-success";
 import ImageList from "./image-list";
+import Webcam from "./webcam";
 
 import { post_photo } from "../../helpers/api";
 
@@ -11,6 +12,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
   const [images, setImages] = useState([]);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showWebcam, setShowWebcam] = useState(false);
 
   const fileInput = useRef(null);
 
@@ -66,13 +68,17 @@ function Uploader({ addNewPhoto, multiple = true }) {
 
   const openFileViewer = e => {
     e.preventDefault();
-    console.log(fileInput);
     fileInput.current.click();
   };
 
   const openWebcam = e => {
     e.preventDefault();
-    navigator.getUserMedia();
+    setShowWebcam(true);
+  };
+
+  const closeWebcam = e => {
+    e.preventDefault();
+    setShowWebcam(false);
   };
 
   return (
@@ -81,8 +87,10 @@ function Uploader({ addNewPhoto, multiple = true }) {
 
       <p className="Uploader-text">
         Drop your images or <span onClick={openFileViewer}>select them</span> or{" "}
-        <span onClick={openWebcam}>open webcam</span>
+        <span onClick={openWebcam}>take a photo</span>
       </p>
+
+      {showWebcam && <Webcam closeWebcam={closeWebcam} />}
 
       <input
         type="file"
@@ -94,7 +102,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
         ref={fileInput}
       />
 
-      <button classname="Uploader-button" onClick={uploadImages}>
+      <button className="Uploader-button" onClick={uploadImages}>
         {!!progress ? "Uploading" : "Upload"}
       </button>
 
