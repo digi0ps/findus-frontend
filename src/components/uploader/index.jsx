@@ -30,10 +30,10 @@ function Uploader({ addNewPhoto, multiple = true }) {
       (progress + thisImageProgress) / images.length,
     );
 
-    setProgress(totalProgress - 1);
+    setProgress(totalProgress);
   };
 
-  const handleSubmit = async e => {
+  const uploadImages = async e => {
     e.preventDefault();
     const requests = [];
 
@@ -52,12 +52,11 @@ function Uploader({ addNewPhoto, multiple = true }) {
     addNewPhoto(photos);
 
     setSuccess(true);
-    setImages(null);
-    setProgress(100);
+    setImages([]);
+    setProgress(0);
 
     setTimeout(() => {
       setSuccess(false);
-      setProgress(0);
     }, 3000);
   };
 
@@ -71,26 +70,33 @@ function Uploader({ addNewPhoto, multiple = true }) {
     fileInput.current.click();
   };
 
+  const openWebcam = e => {
+    e.preventDefault();
+    navigator.getUserMedia();
+  };
+
   return (
     <DragBox onDrop={handleDrop}>
       <ImageList images={images} />
 
       <p className="Uploader-text">
-        Drop your images or <span onClick={openFileViewer}>select them</span>
+        Drop your images or <span onClick={openFileViewer}>select them</span> or{" "}
+        <span onClick={openWebcam}>open webcam</span>
       </p>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          name="image"
-          onChange={handleImageChange}
-          hidden
-          multiple={multiple}
-          ref={fileInput}
-        />
-        <input type="submit" value="Upload" />
-      </form>
+      <input
+        type="file"
+        accept="image/png, image/jpeg"
+        name="image"
+        onChange={handleImageChange}
+        hidden
+        multiple={multiple}
+        ref={fileInput}
+      />
+
+      <button classname="Uploader-button" onClick={uploadImages}>
+        {!!progress ? "Uploading" : "Upload"}
+      </button>
 
       {!!progress && <ProgressBar progress={progress} />}
 
