@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import DragBox from "./drag-box";
+import ProgressBar from "./progress-bar";
+import UploadSuccess from "./upload-success";
+import ImageList from "./image-list";
 
 import { post_photo } from "../../helpers/api";
 
 function Uploader({ addNewPhoto, multiple = true }) {
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const fileInput = useRef(null);
+
+  const setNewImages = files => {
+    const newFiles = Array.from(files);
+    const newImages = [...newFiles, ...images];
+    setImages(newImages);
+  };
+
   const handleImageChange = e => {
-    setImages(e.target.files);
+    setNewImages(e.target.files);
   };
 
   const handleUploadProgress = e => {
@@ -50,23 +61,40 @@ function Uploader({ addNewPhoto, multiple = true }) {
     }, 3000);
   };
 
+  const handleDrop = files => {
+    setNewImages(files);
+  };
+
+  const openFileViewer = e => {
+    e.preventDefault();
+    console.log(fileInput);
+    fileInput.current.click();
+  };
+
   return (
-    <DragBox>
+    <DragBox onDrop={handleDrop}>
+      <ImageList images={images} />
+
+      <p className="Uploader-text">
+        Drop your images or <span onClick={openFileViewer}>select them</span>
+      </p>
+
       <form onSubmit={handleSubmit}>
         <input
           type="file"
           accept="image/png, image/jpeg"
           name="image"
           onChange={handleImageChange}
-          required
+          hidden
           multiple={multiple}
+          ref={fileInput}
         />
         <input type="submit" value="Upload" />
       </form>
-      {!!progress && <p>{progress}% uploaded</p>}
-      {success && (
-        <p className="Uploader-success">Image Uploaded Successfully</p>
-      )}
+
+      {!!progress && <ProgressBar progress={progress} />}
+
+      {success && <UploadSuccess />}
     </DragBox>
   );
 }
