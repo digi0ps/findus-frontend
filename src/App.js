@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
 import * as api from "./helpers/api";
 
+import Home from "./components/home";
 import Uploader from "./components/uploader";
-import PhotoContainer from "./components/photo-container";
-import GroupedContainer from "./components/grouped-container";
 
 import { groupPhotosIntoBucket } from "./helpers/utils";
 import "./App.css";
@@ -45,23 +46,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">FindUs - People Gallery</header>
+      <Router>
+        <header className="App-header">
+          <Link to="/">FindUS</Link>
+        </header>
 
-      <aside>
-        Upload image <Uploader addNewPhoto={addNewPhoto} />
-        <br />
-        Mode <button onClick={toggleMode}>{mode}</button>
-      </aside>
-
-      {loading ? "Your photos are loading" : null}
-
-      <main>
-        {mode === "all" ? (
-          <PhotoContainer title="All Photos" photos={photos} />
-        ) : (
-          <GroupedContainer bucket={bucket} />
-        )}
-      </main>
+        <Switch>
+          <Route path="/uploader/" strict>
+            <Uploader addNewPhoto={addNewPhoto} />
+          </Route>
+          <Route path="/" strict>
+            <Home
+              photos={photos}
+              bucket={bucket}
+              isLoading={loading}
+              mode={mode}
+              toggleMode={toggleMode}
+            />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

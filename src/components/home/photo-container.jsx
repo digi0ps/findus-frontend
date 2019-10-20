@@ -1,5 +1,5 @@
 import React from "react";
-import Photo from "./photo";
+import Photo from "../photo";
 
 function PhotoContainer({ title, photos }) {
   return (
