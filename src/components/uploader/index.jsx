@@ -12,7 +12,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
   const [images, setImages] = useState([]);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showWebcam, setShowWebcam] = useState(false);
+  const [showWebcam, setShowWebcam] = useState(true);
 
   const fileInput = useRef(null);
 
@@ -81,6 +81,12 @@ function Uploader({ addNewPhoto, multiple = true }) {
     setShowWebcam(false);
   };
 
+  const saveWebcamImage = file => {
+    const newImages = [file, ...images];
+    setImages(newImages);
+    setShowWebcam(false);
+  };
+
   return (
     <DragBox onDrop={handleDrop}>
       <ImageList images={images} />
@@ -90,7 +96,9 @@ function Uploader({ addNewPhoto, multiple = true }) {
         <span onClick={openWebcam}>take a photo</span>
       </p>
 
-      {showWebcam && <Webcam closeWebcam={closeWebcam} />}
+      {showWebcam && (
+        <Webcam closeWebcam={closeWebcam} savePicture={saveWebcamImage} />
+      )}
 
       <input
         type="file"
