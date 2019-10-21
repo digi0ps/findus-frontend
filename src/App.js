@@ -49,6 +49,7 @@ function App() {
       <Router>
         <header className="App-header">
           <Link to="/">FindUS</Link>
+          <Link to="/uploader/">Upload</Link>
         </header>
 
         <Switch>

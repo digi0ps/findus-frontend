@@ -12,7 +12,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
   const [images, setImages] = useState([]);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showWebcam, setShowWebcam] = useState(true);
+  const [showWebcam, setShowWebcam] = useState(false);
 
   const fileInput = useRef(null);
 
