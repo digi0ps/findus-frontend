@@ -7,6 +7,7 @@ import Home from "./components/home";
 import Uploader from "./components/uploader";
 
 import { groupPhotosIntoBucket } from "./helpers/utils";
+import { post_photo } from "./helpers/api";
 import "./App.css";
 
 function App() {
@@ -35,7 +36,10 @@ function App() {
 
         <Switch>
           <Route path="/uploader/" strict>
-            <Uploader addNewPhoto={addNewPhoto} />
+            <Uploader submitPhoto={post_photo} successCallback={addNewPhoto} />
+          </Route>
+          <Route path="/search/" strict>
+            <Uploader addNewPhoto={addNewPhoto} multiple={false} />
           </Route>
           <Route path="/" strict>
             <Home

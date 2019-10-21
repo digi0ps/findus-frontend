@@ -15,8 +15,12 @@ export async function get_persons() {
   return response.data;
 }
 
-export async function post_photo(form_data, onUploadProgress) {
+export async function post_photo(image, onUploadProgress) {
   const url = `${BASE_URL}/api/gallery/`;
+
+  const form_data = new FormData();
+  form_data.append("image", image, image.name);
+
   const response = await axios.post(url, form_data, {
     headers: {
       "content-type": "multipart/form-data",
@@ -24,7 +28,7 @@ export async function post_photo(form_data, onUploadProgress) {
     onUploadProgress,
   });
 
-  return response;
+  return response.data;
 }
 
 export async function post_person(form_data) {
