@@ -103,3 +103,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+video {
+  transform: rotateY(180deg);
+}
