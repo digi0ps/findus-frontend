@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-
+import { useHistory } from "react-router-dom";
 import DragBox from "./drag-box";
 import ProgressBar from "./progress-bar";
 import UploadSuccess from "./upload-success";
@@ -11,6 +11,7 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showWebcam, setShowWebcam] = useState(false);
+  const history = useHistory();
 
   const fileInput = useRef(null);
 
@@ -55,8 +56,9 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
     setProgress(0);
 
     setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
+      localStorage.setItem("display_mode", "all");
+      history.push("/");
+    }, 2000);
   };
 
   const handleDrop = files => {
