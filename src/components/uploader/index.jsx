@@ -58,7 +58,7 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
     setTimeout(() => {
       localStorage.setItem("display_mode", "all");
       history.push("/");
-    }, 2000);
+    }, 1000);
   };
 
   const handleDrop = files => {
