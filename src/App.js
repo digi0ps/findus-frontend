@@ -5,6 +5,7 @@ import { usePhotos, usePersons } from "./helpers/hooks";
 
 import Home from "./components/home";
 import Uploader from "./components/uploader";
+import Search from "./components/search";
 
 import { groupPhotosIntoBucket } from "./helpers/utils";
 import { post_photo } from "./helpers/api";
@@ -31,7 +32,10 @@ function App() {
       <Router>
         <header className="App-header">
           <Link to="/">FindUS</Link>
-          <Link to="/uploader/">Upload</Link>
+          <div className="App-header-group">
+            <Link to="/uploader/">Upload</Link>
+            <Link to="/search/">Search</Link>
+          </div>
         </header>
 
         <Switch>
@@ -39,7 +43,7 @@ function App() {
             <Uploader submitPhoto={post_photo} successCallback={addNewPhoto} />
           </Route>
           <Route path="/search/" strict>
-            <Uploader addNewPhoto={addNewPhoto} multiple={false} />
+            <Search />
           </Route>
           <Route path="/" strict>
             <Home

@@ -27,6 +27,13 @@
   width: 100%;
 }
 
+.App-header-group {
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  justify-content: space-between;
+}
+
 .App-header a {
   display: block;
   text-decoration: none;
