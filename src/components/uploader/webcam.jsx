@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function Webcam({ savePicture, closeWebcam }) {
   const video = useRef(null);

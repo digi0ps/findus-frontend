@@ -1,35 +1,19 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import * as api from "./helpers/api";
+import { usePhotos, usePersons } from "./helpers/hooks";
 
 import Home from "./components/home";
 import Uploader from "./components/uploader";
+import Search from "./components/search";
 
 import { groupPhotosIntoBucket } from "./helpers/utils";
+import { post_photo } from "./helpers/api";
 import "./App.css";
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const [persons, setPersons] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      const photos = await api.get_photos();
-      const persons = await api.get_persons();
-
-      setPhotos(photos.reverse());
-      setPersons(persons);
-      setLoading(false);
-    }
-
-    fetchData();
-  }, []);
-
-  const addNewPhoto = newPhotos => {
-    setPhotos([...newPhotos, ...photos]);
-  };
+  const persons = usePersons();
+  const [photos, loading, addNewPhoto] = usePhotos();
 
   const bucket = useMemo(() => groupPhotosIntoBucket(persons, photos), [
     persons,
@@ -37,23 +21,29 @@ function App() {
   ]);
 
   const [mode, setMode] = useState(localStorage["display_mode"] || "all");
+  const toggleMode = () => setMode(mode === "all" ? "grouped" : "all");
 
   useEffect(() => {
     localStorage["display_mode"] = mode;
   }, [mode]);
-
-  const toggleMode = () => setMode(mode === "all" ? "grouped" : "all");
 
   return (
     <div className="App">
       <Router>
         <header className="App-header">
           <Link to="/">FindUS</Link>
+          <div className="App-header-group">
+            <Link to="/uploader/">Upload</Link>
+            <Link to="/search/">Search</Link>
+          </div>
         </header>
 
         <Switch>
           <Route path="/uploader/" strict>
-            <Uploader addNewPhoto={addNewPhoto} />
+            <Uploader submitPhoto={post_photo} successCallback={addNewPhoto} />
+          </Route>
+          <Route path="/search/" strict>
+            <Search />
           </Route>
           <Route path="/" strict>
             <Home

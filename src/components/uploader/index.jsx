@@ -1,25 +1,28 @@
 import React, { useState, useRef } from "react";
-
+// import { useHistory } from "react-router-dom";
 import DragBox from "./drag-box";
 import ProgressBar from "./progress-bar";
 import UploadSuccess from "./upload-success";
 import ImageList from "./image-list";
 import Webcam from "./webcam";
 
-import { post_photo } from "../../helpers/api";
-
-function Uploader({ addNewPhoto, multiple = true }) {
+function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
   const [images, setImages] = useState([]);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showWebcam, setShowWebcam] = useState(true);
+  const [showWebcam, setShowWebcam] = useState(false);
+  // const history = useHistory();
 
   const fileInput = useRef(null);
 
   const setNewImages = files => {
-    const newFiles = Array.from(files);
-    const newImages = [...newFiles, ...images];
-    setImages(newImages);
+    if (multiple) {
+      const newFiles = Array.from(files);
+      const newImages = [...newFiles, ...images];
+      setImages(newImages);
+    } else {
+      setImages([files[0]]);
+    }
   };
 
   const handleImageChange = e => {
@@ -37,21 +40,16 @@ function Uploader({ addNewPhoto, multiple = true }) {
 
   const uploadImages = async e => {
     e.preventDefault();
-    const requests = [];
 
-    for (const image of images) {
-      let form_data = new FormData();
-      form_data.append("image", image, image.name);
-      requests.push(post_photo(form_data, handleUploadProgress));
-    }
+    // Create a promise for each image
+    const requests = images.map(image =>
+      submitPhoto(image, handleUploadProgress),
+    );
 
-    const responses = await Promise.all(requests).catch(err => {
-      console.error("UHOH");
-      return;
-    });
+    const responses = await Promise.all(requests);
 
-    const photos = responses.map(resp => resp.data);
-    addNewPhoto(photos);
+    // If success callback is passed, call it with the request
+    successCallback && successCallback(responses);
 
     setSuccess(true);
     setImages([]);
@@ -59,7 +57,9 @@ function Uploader({ addNewPhoto, multiple = true }) {
 
     setTimeout(() => {
       setSuccess(false);
-    }, 3000);
+      // localStorage.setItem("display_mode", "all");
+      // history.push("/");
+    }, 1000);
   };
 
   const handleDrop = files => {
@@ -82,8 +82,7 @@ function Uploader({ addNewPhoto, multiple = true }) {
   };
 
   const saveWebcamImage = file => {
-    const newImages = [file, ...images];
-    setImages(newImages);
+    setNewImages([file]);
     setShowWebcam(false);
   };
 

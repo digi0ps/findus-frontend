@@ -15,8 +15,12 @@ export async function get_persons() {
   return response.data;
 }
 
-export async function post_photo(form_data, onUploadProgress) {
+export async function post_photo(image, onUploadProgress) {
   const url = `${BASE_URL}/api/gallery/`;
+
+  const form_data = new FormData();
+  form_data.append("image", image, image.name);
+
   const response = await axios.post(url, form_data, {
     headers: {
       "content-type": "multipart/form-data",
@@ -24,13 +28,29 @@ export async function post_photo(form_data, onUploadProgress) {
     onUploadProgress,
   });
 
-  return response;
+  return response.data;
 }
 
 export async function post_person(form_data) {
   const url = `${BASE_URL}/api/person/`;
 
   const response = await axios.post(url, form_data);
+
+  return response.data;
+}
+
+export async function post_search(image, onUploadProgress) {
+  const url = `${BASE_URL}/api/search/`;
+
+  const form_data = new FormData();
+  form_data.append("image", image, image.name);
+
+  const response = await axios.post(url, form_data, {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+    onUploadProgress,
+  });
 
   return response.data;
 }
