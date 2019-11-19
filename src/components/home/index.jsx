@@ -1,7 +1,6 @@
 import React from "react";
 
-import PhotoContainer from "./photo-container";
-import GroupedContainer from "./grouped-container";
+import { PhotoContainer, GroupedContainer } from "../common";
 
 export default function Home({ isLoading, photos, bucket, mode, toggleMode }) {
   return (

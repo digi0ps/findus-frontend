@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import GroupedContainer from "../home/grouped-container";
-
+import { GroupedContainer } from "../common";
 import Uploader from "../uploader";
 
 import { post_search } from "../../helpers/api";
