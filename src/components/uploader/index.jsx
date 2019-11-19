@@ -36,30 +36,32 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
     );
 
     setProgress(totalProgress);
+
+    if (totalProgress === 100) {
+      setSuccess(true);
+      setImages([]);
+      setProgress(0);
+
+      setTimeout(() => {
+        setSuccess(false);
+        // localStorage.setItem("display_mode", "all");
+        // history.push("/");
+      }, 1000);
+    }
   };
 
   const uploadImages = async e => {
     e.preventDefault();
 
+    const responses = [];
     // Create a promise for each image
-    const requests = images.map(image =>
-      submitPhoto(image, handleUploadProgress),
-    );
-
-    const responses = await Promise.all(requests);
+    images.forEach(async image => {
+      const response = await submitPhoto(image, handleUploadProgress);
+      responses.push(response);
+    });
 
     // If success callback is passed, call it with the request
     successCallback && successCallback(responses);
-
-    setSuccess(true);
-    setImages([]);
-    setProgress(0);
-
-    setTimeout(() => {
-      setSuccess(false);
-      // localStorage.setItem("display_mode", "all");
-      // history.push("/");
-    }, 1000);
   };
 
   const handleDrop = files => {

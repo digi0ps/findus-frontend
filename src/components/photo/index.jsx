@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import PersonName from "./person-name";
 import { BASE_URL } from "../../helpers/constants";
 
-function Photo({ id, image, persons }) {
+function Photo({ id, image, persons, isGrouped }) {
   const [isLoading, setIsLoading] = useState(true);
   const handleOnLoad = () => setIsLoading(false);
 
@@ -18,9 +18,8 @@ function Photo({ id, image, persons }) {
           onLoad={handleOnLoad}
         />
         <br />
-        {persons.map(person => (
-          <PersonName key={person.id} person={person} />
-        ))}
+        {!isGrouped &&
+          persons.map(person => <PersonName key={person.id} person={person} />)}
       </div>
     </div>
   );
