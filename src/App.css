@@ -6,6 +6,13 @@
   --primary-color: #09d3ac;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
+  display: block;
+}
+
 .App {
   text-align: center;
   background-color: #282c34;
@@ -117,4 +124,8 @@
 
 video {
   transform: rotateY(180deg);
+}
+
+.Image {
+  cursor: pointer;
 }

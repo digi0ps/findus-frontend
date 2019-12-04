@@ -9,3 +9,11 @@ export const groupPhotosIntoBucket = (persons, photos) => {
 
   return bucket;
 };
+
+export const openBlobInNewTab = blob => e => {
+  e.preventDefault();
+  const w = window.open("");
+  w.onload = () => {
+    w.location = URL.createObjectURL(blob);
+  };
+};

@@ -43,7 +43,7 @@ export default function Webcam({ savePicture, closeWebcam }) {
     context.drawImage(video.current, 0, 0);
 
     canvas.toBlob(blob => {
-      const file = new File([blob], `webcam-${new Date().getTime()}.png`);
+      const file = new File([blob], `webcam-${new Date().getTime()}.jpg`);
       savePicture(file);
     });
   };
