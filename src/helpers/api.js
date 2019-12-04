@@ -15,11 +15,14 @@ export async function get_persons() {
   return response.data;
 }
 
-export async function post_photo(image, onUploadProgress) {
+export async function post_photo(images, onUploadProgress) {
   const url = `${BASE_URL}/api/gallery/`;
 
   const form_data = new FormData();
-  form_data.append("image", image, image.name);
+
+  for (const image of images) {
+    form_data.append("image", image, image.name);
+  }
 
   const response = await axios.post(url, form_data, {
     headers: {

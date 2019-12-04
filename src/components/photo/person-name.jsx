@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { post_person } from "../../helpers/api";
 
 function PersonName({ person }) {
-  const text = person ? person.person_name : "Couldn't identify.";
+  const text = person ? person.name : "Couldn't identify.";
 
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState(text);

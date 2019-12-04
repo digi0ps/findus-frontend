@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import DragBox from "./drag-box";
 import ProgressBar from "./progress-bar";
 import UploadSuccess from "./upload-success";
@@ -11,7 +11,7 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showWebcam, setShowWebcam] = useState(false);
-  // const history = useHistory();
+  const history = useHistory();
 
   const fileInput = useRef(null);
 
@@ -30,38 +30,27 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
   };
 
   const handleUploadProgress = e => {
-    const thisImageProgress = (e.loaded / e.total) * 100;
-    const totalProgress = Math.round(
-      (progress + thisImageProgress) / images.length,
-    );
-
-    setProgress(totalProgress);
-
-    if (totalProgress === 100) {
-      setSuccess(true);
-      setImages([]);
-      setProgress(0);
-
-      setTimeout(() => {
-        setSuccess(false);
-        // localStorage.setItem("display_mode", "all");
-        // history.push("/");
-      }, 1000);
-    }
+    const progress = Math.floor((e.loaded / e.total) * 100);
+    setProgress(progress);
   };
 
   const uploadImages = async e => {
     e.preventDefault();
 
-    const responses = [];
-    // Create a promise for each image
-    images.forEach(async image => {
-      const response = await submitPhoto(image, handleUploadProgress);
-      responses.push(response);
-    });
+    const response = await submitPhoto(images, handleUploadProgress);
+
+    setSuccess(true);
+    setProgress(0);
+    setImages([]);
+
+    setTimeout(() => {
+      setSuccess(false);
+      localStorage.setItem("display_mode", "all");
+      history.push("/");
+    }, 1000);
 
     // If success callback is passed, call it with the request
-    successCallback && successCallback(responses);
+    successCallback && successCallback(response);
   };
 
   const handleDrop = files => {
@@ -116,6 +105,7 @@ function Uploader({ submitPhoto, successCallback = null, multiple = true }) {
       </button>
 
       {!!progress && <ProgressBar progress={progress} />}
+      {progress === 100 && "Processing images in our servers."}
 
       {success && <UploadSuccess />}
     </DragBox>
